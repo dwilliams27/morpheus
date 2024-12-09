@@ -1,24 +1,26 @@
 import { App } from "@/app";
+import { MScene } from "@/game/services/scene/sceneService";
 import { LocatableService, ServiceLocator } from "@/game/services/serviceLocator";
 
 export const GUI_SERVICE_NAME = 'GUI_SERVICE';
 
-export interface Gui {
-  setup: (app: App) => void;
+export class Gui {
+  scene: MScene;
+  constructor(scene: MScene) {
+    this.scene = scene;
+  };
 }
 
 export class GuiService extends LocatableService {
-  private _app: App;
+  static readonly serviceName = GUI_SERVICE_NAME;
   private _currentGui?: Gui;
   
-  constructor(serviceLocator: ServiceLocator, app: App) {
-    super(serviceLocator, GUI_SERVICE_NAME);
-    this._app = app;
+  constructor(serviceLocator: ServiceLocator) {
+    super(serviceLocator);
   }
 
   setGui(gui: Gui) {
     this._currentGui = gui;
-    this._currentGui.setup(this._app);
   }
 
   getGui() {

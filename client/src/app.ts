@@ -1,70 +1,68 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
-import { Engine, Scene, ArcRotateCamera, Vector3, HemisphericLight, Mesh, MeshBuilder, Color4, FreeCamera } from "@babylonjs/core";
+import { Engine } from "@babylonjs/core";
 import { ServiceLocator } from "@/game/services/serviceLocator";
 import { GuiService } from "@/game/services/gui/guiService";
-import { StartMenu } from "@/game/services/gui/startMenu";
+import { SceneService } from "@/game/services/scene/sceneService";
+import { MAIN_MENU_SCENE, MainMenuScene } from "@/game/services/scene/mainMenuScene";
+import { MAIN_GAME_SCENE, MainGameScene } from "@/game/services/scene/mainGameScene";
 
-enum State { START = 0, GAME = 1 }
+export enum State { START = 0, GAME = 1 }
 
 export class App {
   private _canvas: HTMLCanvasElement;
   private _engine: Engine;
-  private _scene: Scene;
+  private _sceneService: SceneService;
 
   private _rootServiceLocator: ServiceLocator;
-  private _guiService?: GuiService;
-
-  private _state: number = 0;
+  private _state: State = 0;
 
   constructor() {
     this._canvas = this._createCanvas();
 
     this._engine = new Engine(this._canvas, true);
-    this._scene = new Scene(this._engine);
     this._rootServiceLocator = new ServiceLocator(this);
+    this._sceneService = new SceneService(this._rootServiceLocator);
 
     this._registerRootServices();
 
-    const camera: ArcRotateCamera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, Vector3.Zero(), this._scene);
-    camera.attachControl(this._canvas, true);
-    const light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), this._scene);
-    const sphere: Mesh = MeshBuilder.CreateSphere("sphere", { diameter: 1 }, this._scene);
+    this._sceneService.addScene(new MainMenuScene(this));
+    this._sceneService.addScene(new MainGameScene(this));
 
-    // hide/show the Inspector
     window.addEventListener("keydown", (ev) => {
-      // Shift+Ctrl+Alt+I
-      if (ev.shiftKey && ev.ctrlKey && ev.altKey && ev.key === 'i') {
-        if (this._scene.debugLayer.isVisible()) {
-          this._scene.debugLayer.hide();
-        } else {
-          this._scene.debugLayer.show();
+      // Shift+Ctrl+I
+      try {
+        if (ev.shiftKey && ev.ctrlKey && ev.keyCode === 73) {
+          if (this._sceneService.getActiveScene().debugLayer.isVisible()) {
+            this._sceneService.getActiveScene().debugLayer.hide();
+          } else {
+            this._sceneService.getActiveScene().debugLayer.show();
+          }
         }
+      } catch (e) {
+        console.error(e);
+        // Probably just before active scene is set
       }
+      
     });
 
     this._main();
   }
 
   private _registerRootServices() {
-    this._guiService = new GuiService(this._rootServiceLocator, this);
+    this._rootServiceLocator.addService(GuiService, new GuiService(this._rootServiceLocator));
+    this._rootServiceLocator.addService(SceneService, this._sceneService);
   }
 
   private async _main() {
-    await this.goToStart();
+    await this._sceneService.setActiveScene(this._sceneService.getScene(MAIN_MENU_SCENE));
 
     this._engine.runRenderLoop(() => {
-      switch (this._state) {
-        case State.START:
-          this._scene.render();
-          break;
-        case State.GAME:
-          // if (this._ui.quit) {
-          //   this._goToStart();
-          //   this._ui.quit = false;
-          // }
-          this._scene.render();
+      switch (this._sceneService.getActiveScene().name) {
+        case MAIN_MENU_SCENE:
+        case MAIN_GAME_SCENE:
+          this._sceneService.getActiveScene().render();
           break;
         default: break;
       }
@@ -83,31 +81,24 @@ export class App {
     return document.body.appendChild(this._canvas);
   }
 
-  detatchSceneControl() {
-    this._scene.detachControl();
+  setState(state: number) {
+    this._state = state;
   }
 
-  async goToStart() {
-    this._engine.displayLoadingUI();
-    this._scene.detachControl();
-    let scene = new Scene(this._engine);
-    scene.clearColor = new Color4(0, 0, 0, 1);
-    let camera = new FreeCamera("camera1", new Vector3(0, 0, 0), scene);
-    camera.setTarget(Vector3.Zero());
-
-    this._guiService?.setGui(new StartMenu());
-
-    await scene.whenReadyAsync();
-    
-    this._engine.hideLoadingUI();
-    //lastly set the current state to the start state and set the scene to the start scene
-    this._scene.dispose();
-    this._scene = scene;
-    this._state = State.START;
+  getEngine() {
+    return this._engine;
   }
 
-  async goToGame() {
+  getRootServiceLocator() {
+    return this._rootServiceLocator;
+  }
 
+  setLoadingUI(visible: boolean) {
+    if (visible) {
+      this._engine.displayLoadingUI();
+    } else {
+      this._engine.hideLoadingUI();
+    }
   }
 }
 new App();
