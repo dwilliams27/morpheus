@@ -7,6 +7,7 @@ import { GuiService } from "@/game/services/gui/guiService";
 import { SceneService } from "@/game/services/scene/sceneService";
 import { MAIN_MENU_SCENE, MainMenuScene } from "@/game/services/scene/mainMenuScene";
 import { MAIN_GAME_SCENE, MainGameScene } from "@/game/services/scene/mainGameScene";
+import { ControlService } from "@/game/services/controlService";
 
 export enum State { START = 0, GAME = 1 }
 
@@ -14,6 +15,7 @@ export class App {
   private _canvas: HTMLCanvasElement;
   private _engine: Engine;
   private _sceneService: SceneService;
+  private _controlService: ControlService;
 
   private _rootServiceLocator: ServiceLocator;
   private _state: State = 0;
@@ -24,6 +26,7 @@ export class App {
     this._engine = new Engine(this._canvas, true);
     this._rootServiceLocator = new ServiceLocator(this);
     this._sceneService = new SceneService(this._rootServiceLocator);
+    this._controlService = new ControlService(this._rootServiceLocator);
 
     this._registerRootServices();
 
@@ -53,6 +56,7 @@ export class App {
   private _registerRootServices() {
     this._rootServiceLocator.addService(GuiService, new GuiService(this._rootServiceLocator));
     this._rootServiceLocator.addService(SceneService, this._sceneService);
+    this._rootServiceLocator.addService(ControlService, this._controlService);
   }
 
   private async _main() {
@@ -87,6 +91,10 @@ export class App {
 
   getEngine() {
     return this._engine;
+  }
+
+  getCanvas() {
+    return this._canvas;
   }
 
   getRootServiceLocator() {
