@@ -2,7 +2,7 @@ import { App } from "@/app";
 import { Environment } from "@/game/environments/environment";
 import { Gui } from "@/game/services/gui/guiService";
 import { LocatableService, ServiceLocator } from "@/game/services/serviceLocator";
-import { HemisphericLight, MeshBuilder, Scene, UniversalCamera, Vector3 } from "@babylonjs/core";
+import { Color3, DirectionalLight, HemisphericLight, MeshBuilder, Scene, ShadowGenerator, UniversalCamera, Vector3 } from "@babylonjs/core";
 
 export const SCENE_SERVICE_NAME = 'SCENE_SERVICE';
 
@@ -13,7 +13,6 @@ export abstract class MScene extends Scene {
   gui: Gui;
   paused: boolean = false;
   mainCamera: UniversalCamera;
-  light: HemisphericLight;
   environment?: Environment;
 
   constructor(name: string, app: App) {
@@ -28,9 +27,30 @@ export abstract class MScene extends Scene {
     this.mainCamera.setTarget(new Vector3(1, 1, 0));
 
     // Lighting
-    this.light = new HemisphericLight("light", new Vector3(0, 0, 0), this);
+    const hemisphericLight = new HemisphericLight(
+      "hemisphericLight",
+      new Vector3(0, 1, 0),
+      this
+    );
+    hemisphericLight.intensity = 0.7;
+    hemisphericLight.groundColor = new Color3(0.2, 0.2, 0.2);
 
-    MeshBuilder.CreateBox("box", {}, this);
+    const directionalLight = new DirectionalLight(
+        "directionalLight",
+        new Vector3(-1, -2, -1),
+        this
+    );
+    directionalLight.intensity = 0.5;
+    directionalLight.position = new Vector3(20, 40, 20);
+    
+    const shadowGenerator = new ShadowGenerator(1024, directionalLight);
+    shadowGenerator.useBlurExponentialShadowMap = true;
+    shadowGenerator.blurScale = 2;
+    shadowGenerator.setDarkness(0.3);
+
+    // Collisions
+    this.collisionsEnabled = true;
+    this.gravity = new Vector3(0, -9.81, 0);
   }
 
   abstract loadEnvironment(): Promise<void>;

@@ -7,7 +7,7 @@ export const CONTROL_SERVICE_NAME = 'CONTROL_SERVICE';
 export class ControlService extends LocatableService {
   static readonly serviceName = CONTROL_SERVICE_NAME;
   activeScene?: MScene;
-  moveSpeed = 0.25;
+  moveSpeed = 0.5;
   rotateSpeed = 0.1;
 
   constructor(serviceLocator: ServiceLocator) {
@@ -17,7 +17,7 @@ export class ControlService extends LocatableService {
   setupUniversalCameraForScene(scene: MScene) {
     this.activeScene = scene;
 
-    const camera = new UniversalCamera("universalCamera", new Vector3(0, 2, -10), this.activeScene);
+    const camera = new UniversalCamera("universalCamera", new Vector3(0, 1, -10), this.activeScene);
     camera.setTarget(Vector3.Zero());
 
     camera.angularSensibility = 10000 * this.rotateSpeed;
@@ -32,6 +32,12 @@ export class ControlService extends LocatableService {
     camera.keysDown.push(83);  // S
     camera.keysLeft.push(65);  // A
     camera.keysRight.push(68); // D
+
+    camera.checkCollisions = true;
+    camera.applyGravity = true;
+
+    camera.ellipsoid = new Vector3(1, 1, 1);
+    camera.ellipsoidOffset = new Vector3(0, 1, 0);
 
     this.activeScene.activeCamera = camera;
 

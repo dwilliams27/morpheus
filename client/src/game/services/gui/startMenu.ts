@@ -17,7 +17,7 @@ export class StartMenuGui extends Gui {
     this.startButton = Button.CreateSimpleButton("start", "PLAY");
     this.startButton.width = 0.2;
     this.startButton.height = "40px";
-    this.startButton.color = "white";
+    this.startButton.color = "black";
     this.startButton.top = "-54px";
     this.startButton.thickness = 0;
     this.startButton.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
@@ -26,7 +26,7 @@ export class StartMenuGui extends Gui {
     this.quitButton = Button.CreateSimpleButton("start", "QUIT");
     this.quitButton.width = 0.2;
     this.quitButton.height = "40px";
-    this.quitButton.color = "white";
+    this.quitButton.color = "black";
     this.quitButton.top = "-14px";
     this.quitButton.thickness = 0;
     this.quitButton.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;

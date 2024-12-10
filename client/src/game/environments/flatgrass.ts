@@ -1,18 +1,25 @@
 import { Environment } from "@/game/environments/environment";
-import { SceneLoader } from "@babylonjs/core";
+import { MeshBuilder } from "@babylonjs/core";
 
 
 export class Flatgrass extends Environment {
   public async _loadAssets() {
-    const envMesh = await SceneLoader.ImportMeshAsync(null, "./models/", "flatgrass.glb", this._scene);
-    const allMeshes = envMesh.meshes[0].getChildMeshes();
+    const ground = MeshBuilder.CreateGround("ground", {
+      width: 100,
+      height: 100
+    }, this._scene);
+    ground.checkCollisions = true;
 
-    const envMesh2 = await SceneLoader.ImportMeshAsync(null, "./models/", "cubes.glb", this._scene);
-    allMeshes.push(...envMesh2.meshes[0].getChildMeshes());
+    const wall = MeshBuilder.CreateBox("wall", {
+        height: 5,
+        width: 10,
+        depth: 1
+    }, this._scene);
+    wall.position.z = 5;
+    wall.checkCollisions = true;
 
     return {
-      env: envMesh,
-      allMeshes: allMeshes
+      allMeshes: [ground, wall]
     };
   }
 }
