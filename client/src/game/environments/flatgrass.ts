@@ -1,5 +1,6 @@
 import { Environment } from "@/game/environments/environment";
-import { MeshBuilder } from "@babylonjs/core";
+import { MeshBuilder, StandardMaterial } from "@babylonjs/core";
+import { WoodProceduralTexture } from "@babylonjs/procedural-textures";
 
 
 export class Flatgrass extends Environment {
@@ -9,6 +10,11 @@ export class Flatgrass extends Environment {
       height: 100
     }, this._scene);
     ground.checkCollisions = true;
+
+    const material = new StandardMaterial("material", this._scene);
+    const texture = new WoodProceduralTexture("texture", 1024, this._scene);
+    material.diffuseTexture = texture;
+    ground.material = material;
 
     const wall = MeshBuilder.CreateBox("wall", {
         height: 5,
