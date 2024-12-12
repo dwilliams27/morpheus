@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require("fs");
 const appDirectory = fs.realpathSync(process.cwd());
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 
 module.exports = {
   entry: './src/app.ts',
@@ -20,14 +21,15 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.wasm'],
     alias: {
       '@': path.resolve(__dirname, 'src/'),
     }
   },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
+    filename: '[name].[contenthash].js',
+    clean: true
   },
   devServer: {
     static: path.resolve(appDirectory, "public"),
@@ -36,8 +38,11 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-        inject: true,
-        template: path.resolve(appDirectory, "public/index.html"),
-    })
+      inject: true,
+      template: path.resolve(appDirectory, "public/index.html"),
+    }),
+    new WasmPackPlugin({
+      crateDirectory: path.resolve(__dirname, "../rust/pkg")
+  }),
   ],
 };

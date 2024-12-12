@@ -9,7 +9,7 @@ import { MAIN_MENU_SCENE, MainMenuScene } from "@/game/services/scene/mainMenuSc
 import { MAIN_GAME_SCENE, MainGameScene } from "@/game/services/scene/mainGameScene";
 import { ControlService } from "@/game/services/controlService";
 
-export enum State { START = 0, GAME = 1 }
+export enum State { START = 0, GAME = 1 };
 
 export class App {
   private _canvas: HTMLCanvasElement;

@@ -1,5 +1,28 @@
 {
+  "name": "morpheus-client",
+  "version": "0.0.1",
+  "description": "Babylon.js + generated textures via WebGPU",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "dev": "webpack-dev-server --port 8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "chalk": "^5.3.0"
+    "@babylonjs/core": "^7.37.0",
+    "@babylonjs/inspector": "^7.37.0",
+    "@babylonjs/materials": "^7.37.0",
+    "@babylonjs/procedural-textures": "^7.39.1",
+    "@types/node": "^22.10.1",
+    "@wasm-tool/wasm-pack-plugin": "^1.7.0",
+    "html-webpack-plugin": "^5.6.3",
+    "nanoid": "^5.0.9",
+    "onnxruntime-web": "^1.20.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
   }
 }
