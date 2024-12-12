@@ -1,2 +1,2 @@
 # Morpheus
-Babylon.js, ONNX for local AI textures, and Rust/WASM
+Babylon.js + generated textures via WebGPU
