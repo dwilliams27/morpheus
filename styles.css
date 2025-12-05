@@ -1,0 +1,359 @@
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #8b5cf6;
+    --bg: #0f172a;
+    --bg-light: #1e293b;
+    --bg-lighter: #334155;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --border: #475569;
+    --accent: #22d3ee;
+    --success: #10b981;
+    --warning: #f59e0b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Navigation */
+#nav {
+    position: sticky;
+    top: 0;
+    background: var(--bg-light);
+    border-bottom: 2px solid var(--primary);
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.nav-header h1 {
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#menu-toggle {
+    background: none;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    font-size: 1.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#menu-toggle:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.nav-menu {
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.nav-menu.active {
+    max-height: 500px;
+}
+
+.nav-menu li {
+    border-top: 1px solid var(--border);
+}
+
+.nav-menu a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.nav-menu a:hover {
+    background: var(--primary);
+    color: white;
+    padding-left: 1.5rem;
+}
+
+/* Main Content */
+#content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.chapter {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--bg-light);
+    border-radius: 1rem;
+    border-left: 4px solid var(--primary);
+}
+
+.chapter h2 {
+    color: var(--primary);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.chapter h3 {
+    color: var(--accent);
+    font-size: 1.5rem;
+    margin: 1.5rem 0 0.75rem;
+}
+
+.chapter h4 {
+    color: var(--secondary);
+    font-size: 1.25rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.chapter p {
+    margin: 1rem 0;
+    color: var(--text-dim);
+}
+
+.chapter ul, .chapter ol {
+    margin: 1rem 0 1rem 1.5rem;
+    color: var(--text-dim);
+}
+
+.chapter li {
+    margin: 0.5rem 0;
+}
+
+code {
+    background: var(--bg);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+    color: var(--accent);
+    font-size: 0.9em;
+}
+
+/* Concept Boxes */
+.concept-box {
+    background: var(--bg);
+    border: 2px solid var(--secondary);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.concept-box h3 {
+    color: var(--secondary);
+    margin-top: 0;
+}
+
+.concept-box p {
+    margin: 0.75rem 0;
+}
+
+/* Layer Cards */
+.layer-card {
+    background: var(--bg-lighter);
+    border-left: 4px solid var(--accent);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+}
+
+.layer-card h4 {
+    color: var(--accent);
+    margin-top: 0;
+}
+
+/* Process Lists */
+.process-list {
+    background: var(--bg);
+    padding: 1.5rem 1.5rem 1.5rem 3rem;
+    border-radius: 0.75rem;
+    margin: 1rem 0;
+}
+
+.process-list li {
+    margin: 1rem 0;
+    color: var(--text);
+}
+
+.process-list strong {
+    color: var(--primary);
+}
+
+/* Interactive Demos */
+.interactive-demo {
+    background: var(--bg);
+    border: 2px solid var(--primary);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.interactive-demo h3 {
+    color: var(--primary);
+    margin-top: 0;
+    font-size: 1.25rem;
+}
+
+.interactive-demo canvas {
+    display: block;
+    margin: 1rem auto;
+    background: var(--bg-light);
+    border-radius: 0.5rem;
+    max-width: 100%;
+    height: auto;
+    touch-action: none;
+}
+
+.controls {
+    margin: 1rem 0;
+}
+
+.controls label {
+    display: block;
+    margin: 1rem 0;
+    color: var(--text);
+}
+
+.controls input[type="range"] {
+    width: 100%;
+    margin-top: 0.5rem;
+    accent-color: var(--primary);
+}
+
+.controls button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    transition: all 0.2s ease;
+}
+
+.controls button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.controls button.active {
+    background: var(--secondary);
+}
+
+.result {
+    text-align: center;
+    font-size: 1.25rem;
+    margin: 1rem 0;
+    color: var(--text);
+}
+
+.result strong {
+    color: var(--accent);
+    font-size: 1.5rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: 3rem;
+    border-top: 2px solid var(--border);
+    color: var(--text-dim);
+}
+
+footer p {
+    margin: 0.5rem 0;
+}
+
+/* Desktop Styles */
+@media (min-width: 768px) {
+    #menu-toggle {
+        display: none;
+    }
+
+    .nav-menu {
+        max-height: none;
+        display: flex;
+        justify-content: center;
+        padding: 0 1rem 1rem;
+    }
+
+    .nav-menu li {
+        border: none;
+        margin: 0 0.25rem;
+    }
+
+    .nav-menu a {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .nav-menu a:hover {
+        padding: 0.5rem 1rem;
+    }
+
+    #content {
+        padding: 2rem;
+    }
+
+    .interactive-demo canvas {
+        width: 300px;
+        height: auto;
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chapter {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Touch-friendly */
+@media (hover: none) {
+    .controls button {
+        padding: 1rem 1.5rem;
+    }
+}

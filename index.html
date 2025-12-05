@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Learning: The Fun Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav id="nav">
+        <div class="nav-header">
+            <h1>🧠 DL: The Fun Guide</h1>
+            <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+        <ul id="nav-menu" class="nav-menu">
+            <li><a href="#intro">What's AI?</a></li>
+            <li><a href="#neural-nets">Neural Networks</a></li>
+            <li><a href="#training">Training Models</a></li>
+            <li><a href="#deep-learning">Going Deep</a></li>
+            <li><a href="#computer-vision">Computer Vision</a></li>
+            <li><a href="#sequences">Sequences & Text</a></li>
+            <li><a href="#generative">Generative AI</a></li>
+            <li><a href="#practice">Tips & Tricks</a></li>
+        </ul>
+    </nav>
+
+    <main id="content">
+        <section id="intro" class="chapter">
+            <h2>What's This AI Thing Anyway?</h2>
+            <p>Machine learning is basically teaching computers to learn from examples instead of programming every rule manually. Think of it like teaching a kid to recognize cats - you show them lots of cat pictures, not write a rulebook.</p>
+
+            <div class="concept-box">
+                <h3>The Big Idea</h3>
+                <p><strong>Traditional Programming:</strong> Rules + Data → Answers</p>
+                <p><strong>Machine Learning:</strong> Data + Answers → Rules</p>
+            </div>
+
+            <h3>Why Deep Learning?</h3>
+            <p>Deep learning uses "neural networks" - layers of simple operations that learn hierarchical representations. It's really good at:</p>
+            <ul>
+                <li>🖼️ Image recognition</li>
+                <li>💬 Natural language</li>
+                <li>🎵 Audio processing</li>
+                <li>🎮 Game playing</li>
+                <li>🎨 Creative generation</li>
+            </ul>
+        </section>
+
+        <section id="neural-nets" class="chapter">
+            <h2>Neural Networks 101</h2>
+            <p>A neural network is just a bunch of math operations stacked together. Each "neuron" does something super simple:</p>
+
+            <div class="interactive-demo" id="neuron-demo">
+                <h3>Interactive: Single Neuron</h3>
+                <p>Adjust the inputs and see the output:</p>
+                <div class="controls">
+                    <label>
+                        Input 1: <span id="input1-val">0.5</span>
+                        <input type="range" id="input1" min="-2" max="2" step="0.1" value="0.5">
+                    </label>
+                    <label>
+                        Input 2: <span id="input2-val">0.3</span>
+                        <input type="range" id="input2" min="-2" max="2" step="0.1" value="0.3">
+                    </label>
+                </div>
+                <canvas id="neuron-canvas" width="300" height="200"></canvas>
+                <p class="result">Output: <strong id="neuron-output">0.00</strong></p>
+            </div>
+
+            <div class="concept-box">
+                <h3>The Math (Don't Panic!)</h3>
+                <p>Each neuron does: <code>output = activation(w₁×x₁ + w₂×x₂ + ... + bias)</code></p>
+                <p>That's it! Multiply inputs by weights, add them up, pass through an activation function.</p>
+            </div>
+
+            <h3>Activation Functions</h3>
+            <p>These add non-linearity. Most common:</p>
+            <ul>
+                <li><strong>ReLU:</strong> max(0, x) - Simple and works great</li>
+                <li><strong>Sigmoid:</strong> Squashes to 0-1 range</li>
+                <li><strong>Tanh:</strong> Squashes to -1 to 1</li>
+            </ul>
+
+            <div class="interactive-demo" id="activation-demo">
+                <h3>Interactive: Activation Functions</h3>
+                <canvas id="activation-canvas" width="300" height="200"></canvas>
+                <div class="controls">
+                    <button class="active" data-fn="relu">ReLU</button>
+                    <button data-fn="sigmoid">Sigmoid</button>
+                    <button data-fn="tanh">Tanh</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="training" class="chapter">
+            <h2>Training: How Networks Learn</h2>
+            <p>Training a neural network is all about finding the right weights. Here's the loop:</p>
+
+            <ol class="process-list">
+                <li><strong>Forward Pass:</strong> Run data through the network, get predictions</li>
+                <li><strong>Calculate Loss:</strong> How wrong were we?</li>
+                <li><strong>Backpropagation:</strong> Figure out which weights to blame</li>
+                <li><strong>Update Weights:</strong> Nudge them in the right direction</li>
+                <li><strong>Repeat:</strong> Do it thousands of times</li>
+            </ol>
+
+            <div class="concept-box">
+                <h3>Key Concepts</h3>
+                <p><strong>Loss Function:</strong> Measures how bad your predictions are. Lower is better.</p>
+                <p><strong>Optimizer:</strong> Algorithm that updates weights. Adam is usually a good default.</p>
+                <p><strong>Learning Rate:</strong> How big the weight updates are. Too big = chaos, too small = slow.</p>
+            </div>
+
+            <div class="interactive-demo" id="gradient-descent">
+                <h3>Interactive: Gradient Descent</h3>
+                <p>Watch how the algorithm finds the minimum:</p>
+                <canvas id="gd-canvas" width="300" height="250"></canvas>
+                <div class="controls">
+                    <button id="gd-step">Step</button>
+                    <button id="gd-run">Run</button>
+                    <button id="gd-reset">Reset</button>
+                    <label>
+                        Learning Rate: <span id="lr-val">0.1</span>
+                        <input type="range" id="lr" min="0.01" max="0.5" step="0.01" value="0.1">
+                    </label>
+                </div>
+            </div>
+
+            <h3>Overfitting: The Classic Mistake</h3>
+            <p>Your model can memorize the training data instead of learning patterns. It's like studying by memorizing answers instead of understanding concepts.</p>
+            <p><strong>Solutions:</strong></p>
+            <ul>
+                <li>More data</li>
+                <li>Dropout (randomly ignore neurons during training)</li>
+                <li>Regularization (penalize complex models)</li>
+                <li>Early stopping</li>
+            </ul>
+        </section>
+
+        <section id="deep-learning" class="chapter">
+            <h2>Going Deep: Architecture Patterns</h2>
+            <p>Stacking layers lets networks learn hierarchical features. In image recognition: edges → textures → parts → objects.</p>
+
+            <h3>Common Layer Types</h3>
+
+            <div class="layer-card">
+                <h4>Dense (Fully Connected)</h4>
+                <p>Every input connects to every output. Good for final layers, small data.</p>
+            </div>
+
+            <div class="layer-card">
+                <h4>Convolutional (Conv)</h4>
+                <p>Slides a filter across the input. Perfect for images - learns local patterns.</p>
+                <p>Pro tip: Convolutions make networks translation-invariant (cat on left = cat on right).</p>
+            </div>
+
+            <div class="layer-card">
+                <h4>Recurrent (RNN/LSTM/GRU)</h4>
+                <p>Has memory of previous inputs. Good for sequences like text or time series.</p>
+            </div>
+
+            <div class="layer-card">
+                <h4>Attention/Transformer</h4>
+                <p>Learns what to focus on. Powers modern LLMs like GPT.</p>
+            </div>
+        </section>
+
+        <section id="computer-vision" class="chapter">
+            <h2>Computer Vision</h2>
+            <p>Teaching computers to see. Convnets are the go-to architecture.</p>
+
+            <h3>Classic Tasks</h3>
+            <ul>
+                <li><strong>Classification:</strong> What's in the image?</li>
+                <li><strong>Object Detection:</strong> Where are the things?</li>
+                <li><strong>Segmentation:</strong> Draw the boundaries</li>
+            </ul>
+
+            <div class="concept-box">
+                <h3>Data Augmentation</h3>
+                <p>A free lunch! Randomly flip, rotate, crop, adjust colors during training. Same cat, more angles = better model.</p>
+            </div>
+
+            <h3>Transfer Learning: The Secret Weapon</h3>
+            <p>Don't train from scratch! Use a model trained on millions of images (like ImageNet), replace the last layer, fine-tune on your data. Works incredibly well.</p>
+        </section>
+
+        <section id="sequences" class="chapter">
+            <h2>Sequences & Text</h2>
+            <p>Text is just a sequence of tokens. Models need to understand context and relationships.</p>
+
+            <h3>Text Processing Pipeline</h3>
+            <ol class="process-list">
+                <li><strong>Tokenization:</strong> Break text into pieces (words, subwords, characters)</li>
+                <li><strong>Embeddings:</strong> Convert tokens to vectors that capture meaning</li>
+                <li><strong>Model:</strong> Process the sequence (RNN, Transformer, etc.)</li>
+                <li><strong>Output:</strong> Classification, generation, whatever you need</li>
+            </ol>
+
+            <div class="concept-box">
+                <h3>Word Embeddings Are Magic</h3>
+                <p>Similar words get similar vectors. "king - man + woman ≈ queen" actually works!</p>
+            </div>
+
+            <h3>Attention Changed Everything</h3>
+            <p>The Transformer architecture (attention-based) powers GPT, BERT, and modern LLMs. It's massively parallel and captures long-range dependencies better than RNNs.</p>
+        </section>
+
+        <section id="generative" class="chapter">
+            <h2>Generative AI</h2>
+            <p>Models that create new content. The fun stuff!</p>
+
+            <h3>Major Approaches</h3>
+
+            <div class="layer-card">
+                <h4>Variational Autoencoders (VAEs)</h4>
+                <p>Compress data into a "latent space", then decode back. Smooth interpolation between examples.</p>
+            </div>
+
+            <div class="layer-card">
+                <h4>Generative Adversarial Networks (GANs)</h4>
+                <p>Two networks fight: Generator creates fakes, Discriminator tries to catch them. Both get better.</p>
+                <p>Notorious for being tricky to train, but can produce amazing results.</p>
+            </div>
+
+            <div class="layer-card">
+                <h4>Diffusion Models</h4>
+                <p>Learn to denoise images. Start with noise, gradually make it clearer. Powers DALL-E, Stable Diffusion.</p>
+            </div>
+
+            <div class="layer-card">
+                <h4>Autoregressive Models</h4>
+                <p>Generate one token at a time based on previous tokens. How GPT writes text.</p>
+            </div>
+        </section>
+
+        <section id="practice" class="chapter">
+            <h2>Tips & Tricks</h2>
+            <p>Practical advice for actually building things:</p>
+
+            <h3>Getting Started</h3>
+            <ul>
+                <li>Start small - get a simple model working first</li>
+                <li>Use transfer learning when possible</li>
+                <li>Google Colab is free and has GPUs</li>
+                <li>PyTorch and TensorFlow/Keras are the main frameworks</li>
+            </ul>
+
+            <h3>Debugging</h3>
+            <ul>
+                <li>Loss not decreasing? Check learning rate, data preprocessing</li>
+                <li>Perfect training, bad validation? Overfitting</li>
+                <li>Both bad? Model too simple, or bug in data pipeline</li>
+                <li>Visualize your data! Make sure it looks right</li>
+            </ul>
+
+            <h3>Making It Better</h3>
+            <ul>
+                <li>More data > fancier model (usually)</li>
+                <li>Ensemble multiple models for better results</li>
+                <li>Hyperparameter tuning (learning rate, architecture, etc.)</li>
+                <li>Read recent papers for state-of-the-art tricks</li>
+            </ul>
+
+            <div class="concept-box">
+                <h3>Remember</h3>
+                <p>Deep learning is empirical. Try things, see what works. Don't get too attached to theory - results matter!</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>Inspired by François Chollet's "Deep Learning with Python"</p>
+            <p>Built for casual learning and fun exploration 🚀</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
